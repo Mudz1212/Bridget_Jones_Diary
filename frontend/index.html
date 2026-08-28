@@ -6,27 +6,69 @@
     <title>Bridget Jones Diary</title>
   </head>
   <body>
-    <header>My Diary</header>
+    <header>
+      <h1>My Diary</h1>
+    </header>
+    <main>  
+    <form id="entries_view">
+        <h2>Your Entries</h2>
+        <label for="entries">Sort By:</label>
+        <select name="entries" id="select-recent">
+          <option value="latest">Latest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+        <br></br>
+        <input type="submit" value="search">
+    </form>
+    <br></br>
 
-    <main>
       <section id="search-section">
-        <form id="search-field"></form>
-        <input type="text" id="searching" placeholder="Search your entries" />
-        <input type="date" id="date" />
-        <buttton type="submit"> Search </buttton>
+        <form>
+        <h2> Search your entries here</h2>
+        <form id="search-field">
+
+        
+        <label for="entries">Category:</label>
+        <input type="text" id="entry-category" placeholder="e.g. Work, Dream">
+        </select>
+
+        <div class="searches">
+            <label for="searchDay">Day</label>
+                <input type="number" id="searchingDay" placeholder="DD" min="1" max="31"/>
+            </label>
+        </div>
+        <div class="searches">
+            <label for="searchMonth">Month</label>
+                <input type="number" id="searchingMonth" placeholder="MM" min="1" max="12"/>
+            </label>
+        </div>
+                <div class="searches">
+            <label for="searchYear">Year</label>
+                <input type="number" id="searchingYear" placeholder="YYYY" min="1926" max="2026"/>
+            </label>
+        </div>
+        </form>
+        <ul id="search-results">
+        
+        </ul>
       </section>
 
       <section id="input-field">
         <form id="entry">
-          <input type="date" id="entry-time" />
+          <h2>Write a new entry here</h2>
+
           <input type="text" id="cateogry" placeholder="e.g. Sad, Happy, Wow" />
           <input
             type="text"
             id="entry-body"
             placeholder="Write whatever you are feeling in here"
-          />
+          /> 
+            <input type="date" id="entry-time"/>
+            <input id="entry-submit" type="submit" value="Submit">
         </form>
       </section>
+
+
     </main>
   </body>
 </html>
