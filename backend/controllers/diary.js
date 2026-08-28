@@ -9,10 +9,30 @@ async function index(req, res) {
     }
 }
 
-async function show(req, res) {
+async function showId(req, res) {
     try {
         let id = req.params.id;
         const entry = await Diary.getById(id);
+        res.status(200).json(entry)
+    } catch(err) {
+        res.status(404).json({error: err.message})
+    }
+}
+
+async function showDate(req, res) {
+    try {
+        let date = req.params.date;
+        const entry = await Diary.getByDate(date);
+        res.status(200).json(entry)
+    } catch(err) {
+        res.status(404).json({error: err.message})
+    }
+}
+
+async function showCategory(req, res) {
+    try {
+        let category = req.params.category;
+        const entry = await Diary.getByCategory(category);
         res.status(200).json(entry)
     } catch(err) {
         res.status(404).json({error: err.message})
@@ -53,4 +73,4 @@ async function update(req, res) {
 }
 
 
-module.exports = { index, show, create, remove, update }
+module.exports = { index, showId, showDate, showCategory, create, remove, update }

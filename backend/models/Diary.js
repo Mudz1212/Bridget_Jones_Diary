@@ -30,6 +30,32 @@ class Diary {
     return new Diary(response.rows[0]);
   }
 
+  static async getByDate(date) {
+    const response = await db.query(
+      "SELECT * FROM diary WHERE date_time = $1;",
+      [date],
+    );
+
+    if (response.rows.length != 1) {
+      throw new Error("Diary entry doesn't exist!");
+    }
+
+    return new Diary(response.rows[0]);
+  }
+
+  static async getByCategory(category) {
+    const response = await db.query(
+      "SELECT * FROM diary WHERE LOWER(category) = LOWER($1);",
+      [category],
+    );
+
+    if (response.rows.length != 1) {
+      throw new Error("Diary entry doesn't exist!");
+    }
+
+    return new Diary(response.rows[0]);
+  }
+
   static async create(data) {
     const { title, category, text, date_time} = data;
 
