@@ -1,39 +1,33 @@
-const fruitForm = document.querySelector("#inputSection form");
-const fruitList = document.querySelector("#fruitSection ul");
-const fruitNutrition = document.querySelector("#nutritionSection p");
-const createForm = document.querySelector("#create-form");
-const patchForm = document.querySelector("#patch-form");
-const removeForm = document.querySelector("#remove-form");
+const entryForm = document.querySelector("#entry form");
+const entryList = document.querySelector("#entries-list ul");
+const entryTitle = document.querySelector("#detail-title p");
+const entryCategory = document.querySelector("#detail-category p");
+const entryDate = document.querySelector("#detail-time p");
+const createForm = document.querySelector("#entry form");
 
-let cal = 0;
-const fruitCal = {};
-const apiKey = "57038365-2518f6e86a0e254b681cb1420";
+const patchForm = document.querySelector("#detail-edit input");
+const removeForm = document.querySelector("#detail-delete input");
 
-fruitForm.addEventListener("submit", extractFruit);
-createForm.addEventListener("submit", createNewFruit);
-patchForm.addEventListener("submit", patchFruit);
-removeForm.addEventListener("submit", deleteFruit);
+entryForm.addEventListener("submit", extractEntry);
+createForm.addEventListener("submit", createNewEntry);
+patchForm.addEventListener("submit", patchEntry);
+removeForm.addEventListener("submit", deleteEntry);
 
-function extractFruit(e) {
+function extractEntry(e) {
   e.preventDefault();
-  fetchFruitData(e.target.fruitInput.value);
-  e.target.fruitInput.value = "";
+  fetchEntryData(e.target.entryInput.value);
+  e.target.entryInput.value = "";
 }
 
-async function fetchFruitData(fruit) {
+async function fetchEntryCategory(entry) {
   try {
-    //Make sure to replace this link with your deployed API URL in this fetch
     const respData = await fetch(
-      `https://fruits-api-z4ak.onrender.com/fruits/${fruit}`,
-    );
-    const respImg = await fetch(
-      `https://pixabay.com/api/?q=${fruit}+fruit&key=${apiKey}`,
+      `https://bridget-jones-diary-1.onrender.com/cateogry/${entry}`,
     );
 
-    if (respData.ok && respImg.ok) {
+    if (respData.ok) {
       const data = await respData.json();
-      const imgData = await respImg.json();
-      addFruit(data, imgData);
+      addEntry(data);
     } else {
       throw "Something has gone wrong with one of the API requests";
     }
@@ -42,126 +36,44 @@ async function fetchFruitData(fruit) {
   }
 }
 
-function addFruit(fruit, fruitImg) {
-  const img = document.createElement("img");
-  img.classList.add("fruits");
-  img.alt = fruit.name;
-  img.src = fruitImg.hits[0].previewURL;
+async function fetchEntryId(entry) {
+  try {
+    const respData = await fetch(
+      `https://bridget-jones-diary-1.onrender.com/id/${entry}`,
+    );
 
-  img.addEventListener("click", removeFruit, { once: true });
-  fruitList.appendChild(img);
-
-  fruitCal[fruit.name] = fruit.nutritions.calories;
-
-  cal += fruit.nutritions.calories;
-  fruitNutrition.textContent = "Total Calories: " + cal;
-}
-
-function removeFruit(e) {
-  const fruitName = e.target.alt;
-  cal -= fruitCal[fruitName];
-  fruitNutrition.textContent = "Total Calories: " + cal;
-
-  delete fruitCal[fruitName];
-  e.target.remove();
-}
-
-async function createNewFruit(e) {
-  e.preventDefault();
-  const data = {
-    genus: e.target.fruitGenus.value,
-    name: e.target.fruitName.value,
-    family: e.target.fruitFam.value,
-    order: e.target.fruitOrder.value,
-    nutritions: {
-      carbohydrates: Number(e.target.fruitCarb.value),
-      protein: Number(e.target.fruitProt.value),
-      fats: Number(e.target.fruitFat.value),
-      calories: Number(e.target.fruitCal.value),
-      sugar: Number(e.target.fruitSug.value),
-    },
-  };
-
-  e.target.reset();
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(
-    `https://fruits-api-z4ak.onrender.com/fruits`,
-    options,
-  );
-  let messageStatus = document.querySelector("#message");
-  if (response.status == 201) {
-    messageStatus.textContent = "Fruit successfully created";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
-  } else {
-    messageStatus.textContent = "This fruit already exists";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
+    if (respData.ok) {
+      const data = await respData.json();
+      addEntry(data);
+    } else {
+      throw "Something has gone wrong with one of the API requests";
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
-async function patchFruit(e) {
-  e.preventDefault();
+async function fetchEntryDiary() {
+  try {
+    const respData = await fetch(`https://bridget-jones-diary-1.onrender.com/`);
 
-  const data = {
-    name: e.target.newName.value,
-    family: e.target.fruitFam.value,
-  };
-
-  const fruit = e.target.oldName.value;
-  e.target.reset();
-
-  const options = {
-    method: "PATCH",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  const response = await fetch(
-    `https://fruits-api-z4ak.onrender.com/fruits/${fruit}`,
-    options,
-  );
-  console.log(response);
-  let messageStatus = document.querySelector("#patch-message");
-  if (response.status == 200) {
-    messageStatus.textContent = "Fruit successfully changed";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
-  } else {
-    messageStatus.textContent = "This fruit doesn't exist";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
+    if (respData.ok) {
+      const data = await respData.json();
+      addEntry(data);
+    } else {
+      throw "Something has gone wrong with one of the API requests";
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
-async function deleteFruit(e) {
-  e.preventDefault();
-
-  const fruit = e.target.name.value;
-
-  e.target.reset();
-
-  const options = {
-    method: "DELETE",
-  };
-
-  const response = await fetch(
-    `https://fruits-api-z4ak.onrender.com/fruits/${fruit}`,
-    options,
-  );
-  console.log(response);
-  let messageStatus = document.querySelector("#remove-message");
-  if (response.status == 200) {
-    messageStatus.textContent = "Fruit successfully DELETED";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
-  } else {
-    messageStatus.textContent = "This fruit doesn't exist";
-    setTimeout(() => (messageStatus.textContent = ""), 4000);
-  }
+function addEntry() {
+  const li = document.createElement("li");
+  li.id = data.entry_id;
+  li.textContent = data.title;
+  li.addEventListener("click", displayEntry, { once: true });
+  entryList.appendChild(li);
 }
+
+fetchEntryDiary();
