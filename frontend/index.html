@@ -33,20 +33,21 @@
         <input type="text" id="entry-category" placeholder="e.g. Work, Dream">
 
         <div class="searches">
-            <label for="searchDay">Day</label>
+            <label for="searchDay">Day:</label>
                 <input type="number" id="searchingDay" placeholder="DD" min="1" max="31"/>
             </label>
         </div>
         <div class="searches">
-            <label for="searchMonth">Month</label>
+            <label for="searchMonth">Month:</label>
                 <input type="number" id="searchingMonth" placeholder="MM" min="1" max="12"/>
             </label>
         </div>
                 <div class="searches">
-            <label for="searchYear">Year</label>
+            <label for="searchYear">Year:</label>
                 <input type="number" id="searchingYear" placeholder="YYYY" min="1926" max="2026"/>
             </label>
         </div>
+        <li></li>
         <input id="search-submit" type="submit" value="search">
         </form>
         <ul id="search-results">
@@ -57,20 +58,32 @@
       <section id="input-field">
         <form id="entry">
           <h2>Write a new entry here</h2>
-
+        
           <input type="hidden" id="entry-id" />
+          <div class="entries">
+          <label for="Category">Category:</label>
           <input type="text" id="cateogry" placeholder="e.g. Sad, Happy, Wow" />
+          </div>
+                  <li></li>
+          <div class="entries">
+          <label for="entry-body">Entry:</label>
           <input
             type="text"
             id="entry-body"
             placeholder="Write whatever you are feeling in here"
           /> 
+         </div> 
+                 <li></li>
+
+        <div class="entries">
+         <label for="entry-time">Date:</label>
             <input type="datetime-local" id="entry-time"/>
             <input id="entry-submit" type="submit" value="Submit">
+        </div>    
         </form>
       </section>
 
-      <section id="entry-detail">
+      <section id="entry-detail" hidden>
         <h2>Entry Details</h2>
         <p id="detail-category"></p>
         <p id="detail-time"></p>
@@ -81,4 +94,8 @@
 
     </main>
   </body>
+
+  <footer>
+    <p> Keep all the thing sin here PRIVATE only you should be able to see these</p>
+  </footer>
 </html>
