@@ -1,0 +1,31 @@
+{
+  "name": "bridget_jones_diary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -L ./backend/index.js",
+    "setup-db": "node ./server/db/setup.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mudz1212/Bridget_Jones_Diary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mudz1212/Bridget_Jones_Diary/issues"
+  },
+  "homepage": "https://github.com/Mudz1212/Bridget_Jones_Diary#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
