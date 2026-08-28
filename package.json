@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -L ./backend/index.js",
-    "setup-db": "node ./server/db/setup.js"
+    "setup-db": "node ./backend/db/setup.js"
   },
   "repository": {
     "type": "git",
